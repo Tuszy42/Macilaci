@@ -17,6 +17,7 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
     private JLabel label1 = new JLabel();
     private Integer[] mapSizes = {8, 12, 16};
 
+    //could have used just numbers, but this is more elegant, and clearer
     public enum Directions {
 
         LEFT, RIGHT, UP, DOWN
@@ -105,7 +106,8 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
 
         this.game.startNewGame(n);
     }
-
+    
+    //adding the new game button, which has an obvious purpose
     private void createNewGameBtn() {
         JButton newGame = new JButton(new AbstractAction() {
             @Override
@@ -135,13 +137,17 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
         newGame.setFocusable(false);
         add(newGame, BorderLayout.SOUTH);
     }
-
+    
+    //popup before every new game: set the size of the gamefield
     private int newGamePopUp() {
         int n = fields.length == 0 ? 8 : fields.length;
         int num = (Integer) JOptionPane.showInputDialog(this, "NxN game area\nn=", "New game", JOptionPane.QUESTION_MESSAGE, new ImageIcon(getClass().getResource("images/basket.png")), mapSizes, n);
         return num;
     }
-
+    
+    
+    //going through the entire gamefield, checking the gamelogic, that at given field, what it's attribute is
+    //according to the attribute, set the icon for it
     @Override
     public void onFieldChange() {
         for (int i = 0; i < fields.length; i++) {
@@ -168,7 +174,8 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
         }
         label1.setText(": " + game.getBaskets());
     }
-
+    
+    //end game message, if you lsot, or won the game
     @Override
     public void onFinished() {
         if (game.getBaskets() == fields.length) {
