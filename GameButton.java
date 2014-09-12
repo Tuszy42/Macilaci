@@ -2,6 +2,7 @@ package bead2;
 
 import javax.swing.JButton;
 
+//Just a custom button, that has the position attribute of the gamefield
 public class GameButton extends JButton {
 
     private int i;
