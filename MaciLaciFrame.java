@@ -26,7 +26,7 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
         this.game = game;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
-        // a frame értesülni szeretne a gameLogic eseményeiről
+        // this is needed, so that the frame sees changes of gameLogic
         this.game.setListener(this);
         this.setTitle("Maci Laci Game");
         this.setLocationRelativeTo(null);
@@ -44,7 +44,7 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
         public void keyPressed(KeyEvent e) {
             //Not supported
         }
-
+        //upon releasing a cursor key, Mr. Bear moves into the right direction (or left, or up, or down)
         @Override
         public void keyReleased(KeyEvent e) {
             /*
@@ -70,7 +70,7 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
             }
         }
     };
-
+    //This just makes the field of the game, with given size (n)
     private void createGameArea() {
         int n = newGamePopUp();
         fields = new GameButton[n][n];
@@ -85,7 +85,8 @@ public class MaciLaciFrame extends JFrame implements GameStateListener {
         }
         jp.setFocusable(true);
         jp.addKeyListener(listener);
-
+        
+        //setting Mr.Bear in top-right corner
         fields[0][0].setIcon(new ImageIcon(getClass().getResource("images/yogibear.png")));
         add(jp, BorderLayout.CENTER);
 
