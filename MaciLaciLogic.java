@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MaciLaciLogic {
-
+    
+    //a set of states that describe every tile on the gamefield
     public enum State {
 
         BEAR, RANGER, BASKET, TREE, EMPTY
@@ -32,6 +33,9 @@ public class MaciLaciLogic {
         this.listener = listener;
     }
 
+    //depending on what direction was pressed, Mr.Bear gets moved into the right direction
+    //besides that, this checks if Mr.Bear wants to go outside of the gamefield, or if he successfully collects a basket
+    //moreover, the rangers get moved here as well, and a check if every basket has been collected
     public void changeMaciPosition(Directions d) {
         if (d == Directions.LEFT && maciY != 0 && fields[maciX][maciY - 1] != State.TREE) {
             fields[maciX][maciY] = State.EMPTY;
@@ -66,13 +70,15 @@ public class MaciLaciLogic {
             listener.onFinished();
         }
     }
-
+    //if stepped on a basket, the counter increments
     private void checkForBasket() {
         if (fields[maciX][maciY] == State.BASKET) {
             this.baskets++;
         }
     }
-
+    //depending on what random direction a ranger got, it moves into that direction, if there is no obstacle
+    //if it hits a wall, or tree, or another ranger, the direction gets changed into the opposite
+    //this means, that one ranger can only move vertically, or horizontally
     private void changeRangerPosition() {
         loop:
         {
@@ -116,6 +122,8 @@ public class MaciLaciLogic {
                         break;
                 }
                 listener.onFieldChange();
+                //the vicinity of the ranger is checked after it moves
+                //if Mr.Bear is found in one of the 8 blocks next ot the ranger, the game is over
                 for (int i = it.getKey()[0] - 1; i <= it.getKey()[0] + 1; i++) {
                     for (int j = it.getKey()[1] - 1; j <= it.getKey()[1] + 1; j++) {
                         if (i < fields.length && j < fields.length && i >= 0 && j >= 0) {
@@ -129,7 +137,7 @@ public class MaciLaciLogic {
             }
         }
     }
-
+    //the gamefield gets randomly populated with trees, baskets, and some rangers (number depends on size of field)
     private void populateField() {
         int num = 1;
         int x, y;
@@ -163,7 +171,7 @@ public class MaciLaciLogic {
             }
         } while (num + 1 <= this.size / 3);
     }
-
+    //this resets the whole game, and populates it again
     void startNewGame(int size) {
         this.size = size;
         this.fields = new State[this.size][this.size];
